@@ -1,0 +1,16 @@
+version: 2
+jobs:
+    build:
+        machine: true
+        steps:
+            - checkout
+            - run: |
+                docker info
+                if [[ -e ~/docker/arduino_dev.docker.bin ]]; then docker load --input ~/docker/arduino_dev.docker.bin; fi
+                docker build --rm=false -t jonathanschmalhofer/arduino-dev:latest .
+                mkdir -p ~/docker; docker save jonathanschmalhofer/arduino-dev:latest > ~/docker/arduino_dev.docker.bin
+            - run: |
+                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                docker push jonathanschmalhofer/arduino-dev:latest
+            - store_artifacts:
+                path: ~/docker
