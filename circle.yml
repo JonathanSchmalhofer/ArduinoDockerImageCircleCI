@@ -17,4 +17,5 @@ jobs:
                 docker push jonathanschmalhofer/arduino-dev:latest
             - store_artifacts:
                 path: ~/docker
+            - store_artifacts:
                 path: ~/log
