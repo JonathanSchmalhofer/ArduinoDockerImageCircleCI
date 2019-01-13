@@ -10,12 +10,12 @@ jobs:
                 docker build --rm=false -t jonathanschmalhofer/arduino-dev:latest .
                 mkdir -p ~/docker; docker save jonathanschmalhofer/arduino-dev:latest > ~/docker/arduino_dev.docker.bin
             - run: |
-                docker run -d jonathanschmalhofer/arduino-dev:latest /bin/bash -c "mkdir -p ~/my_project/src; cd ~/my_project/; git clone https://github.com/JonathanSchmalhofer/ArduinoMinimalExampleCircleCI.git; cd ~/my_project/ArduinoMinimalExampleCircleCI; ino build" > ~/log/dockerrun.log
-                cat ~/log/dockerrun.log
+                docker run -d jonathanschmalhofer/arduino-dev:latest /bin/bash -c "mkdir -p ~/my_project/src; cd ~/my_project/; git clone https://github.com/JonathanSchmalhofer/ArduinoMinimalExampleCircleCI.git; cd ~/my_project/ArduinoMinimalExampleCircleCI; ino build" > ~/dockerrun.log
+                cat ~/dockerrun.log
             - run: |
                 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
                 docker push jonathanschmalhofer/arduino-dev:latest
             - store_artifacts:
                 path: ~/docker
             - store_artifacts:
-                path: ~/log
+                path: ~/dockerrun.log
